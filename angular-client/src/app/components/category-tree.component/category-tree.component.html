@@ -1,0 +1,39 @@
+<mat-tree
+  [dataSource]="dataSource"
+  [treeControl]="treeControl"
+  class="example-tree mat-tree-position"
+>
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+    <li class="mat-tree-node" [style.padding-left]="node.level * 40 + 'px'">
+      <div class="text">
+        <!-- show the category name -->
+        {{ node.categoryName }}
+      </div>
+    </li>
+  </mat-tree-node>
+
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodeToggle>
+    <li [style.padding-left]="node.level * 40 + 'px'">
+      <div class="mat-tree-node">
+        <!-- show the expand/collapse icon -->
+        <button
+          mat-icon-button
+          matTreeNodeToggle
+          [attr.aria-label]="'toggle ' + node.categoryName"
+        >
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+          </mat-icon>
+        </button>
+        <div class="text">
+          <!-- show the category name -->
+          {{ node.categoryName }}
+        </div>
+      </div>
+      <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+        <!-- recursively render the children nodes -->
+        <ng-container matTreeNodeOutlet></ng-container>
+      </ul>
+    </li>
+  </mat-tree-node>
+</mat-tree>
